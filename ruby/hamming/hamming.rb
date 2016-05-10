@@ -3,25 +3,14 @@ require 'pry'
 class Hamming
   VERSION = 1
 
-  def self.compute(strand_1, strand_2)
-    @strand_1 = strand_1
-    @strand_2 = strand_2
-    check_lengths_match
-    strand_1 == strand_2 ? 0 : analyze
+  def self.compute(s_1, s_2)
+    raise ArgumentError, "Strand length mismatch" if s_1.length != s_2.length
+    discrepancies_count(s_1, s_2)
   end
 
-  def self.check_lengths_match
-    if @strand_1.length != @strand_2.length
-      raise ArgumentError, "Please enter strands with identical lengths"
-    end
-  end
-
-  def self.analyze
-    array_1 = @strand_1.chars
-    array_2 = @strand_2.chars
-
-    array_1.map.with_index do |pos, index|
-      pos == array_2[index] ? 0 : 1
-    end.inject(:+)
+  def self.discrepancies_count(s_1, s_2)
+    (0..s_1.length).reject do |i|
+      s_1[i] == s_2[i]
+    end.count
   end
 end
