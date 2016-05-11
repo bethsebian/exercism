@@ -9,8 +9,8 @@ class Complement
   end
 
   def self.verify(nucleotide)
-    warning = "Nucleotide '#{nucleotide}' not recognized"
-    raise ArgumentError, warning if !complements.key?(nucleotide)
+    message = "Nucleotide '#{nucleotide}' not recognized"
+    raise ArgumentError, message unless complements.key?(nucleotide)
   end
 
   def self.complements
