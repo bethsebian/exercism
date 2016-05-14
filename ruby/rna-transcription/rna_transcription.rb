@@ -1,15 +1,15 @@
 module Complement
   VERSION = 3
-  @complements = { "G" => "C",
-                   "C" => "G",
-                   "T" => "A",
-                   "A" => "U"
-                  }
+  COMPLEMENTS = { "G" => "C",
+                  "C" => "G",
+                  "T" => "A",
+                  "A" => "U"
+                }
 
   def self.of_dna(nucleotides)
     nucleotides.chars.map.with_index do |nucleotide, i|
       require_valid_nucleotide(nucleotide, i)
-      @complements[nucleotide]
+      COMPLEMENTS[nucleotide]
     end.join
   end
 
@@ -18,7 +18,7 @@ module Complement
   private
     def require_valid_nucleotide(nucleotide, i)
       alert = "Nucleotide '#{nucleotide}' at position #{i} not recognized"
-      raise ArgumentError, alert unless @complements.key?(nucleotide)
+      raise ArgumentError, alert unless COMPLEMENTS.key?(nucleotide)
     end
 
   end
