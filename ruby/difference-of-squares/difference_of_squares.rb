@@ -1,18 +1,17 @@
 class Squares
-  attr_reader :number
+  attr_reader :number_range
   VERSION = 2
 
   def initialize(number)
-    @number = number
+    @number_range = 0..number
   end
 
   def square_of_sum
-    sum = (0..number).map { |i| i }.inject(:+)
-    sum**2
+    (number_range).map { |i| i }.inject(:+)**2
   end
 
   def sum_of_squares
-    (0..number).map { |i| i**2 }.inject(:+)
+    (number_range).map { |i| i**2 }.inject(:+)
   end
 
   def difference
