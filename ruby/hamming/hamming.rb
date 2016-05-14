@@ -1,12 +1,18 @@
-class Hamming
+module Hamming
   VERSION = 1
 
-  def self.compute(str_1, str_2)
-    raise ArgumentError, "Strand length mismatch" if str_1.length != str_2.length
-    discrepancies_count(str_1, str_2)
+  def self.compute(strand_1, strand_2)
+    require_same_lengths(strand_1, strand_2)
+    position_pairs = strand_1.each_char.zip(strand_2.each_char)
+    position_pairs.count { |strand_1, strand_2| strand_1 != strand_2 }
   end
 
-  def self.discrepancies_count(str_1, str_2)
-    (0..str_1.length).reject { |i| str_1[i] == str_2[i] }.count
+  class << self
+
+  private
+    def require_same_lengths(strand_1, strand_2)
+      alert = "Strand length error: '#{strand_1}' length != '#{strand_2}' length"
+      fail ArgumentError, alert unless strand_1.length == strand_2.length
+    end
   end
 end
