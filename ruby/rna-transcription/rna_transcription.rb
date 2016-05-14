@@ -1,23 +1,25 @@
-class Complement
+module Complement
   VERSION = 3
+  @complements = { "G" => "C",
+                   "C" => "G",
+                   "T" => "A",
+                   "A" => "U"
+                  }
 
   def self.of_dna(nucleotides)
-    nucleotides.chars.map do |nucleotide|
-      verify(nucleotide)
-      complements[nucleotide]
+    nucleotides.chars.map.with_index do |nucleotide, i|
+      require_valid_nucleotide(nucleotide, i)
+      @complements[nucleotide]
     end.join
   end
 
-  def self.verify(nucleotide)
-    message = "Nucleotide '#{nucleotide}' not recognized"
-    raise ArgumentError, message unless complements.key?(nucleotide)
-  end
+  class << self
 
-  def self.complements
-    { "G" => "C",
-      "C" => "G",
-      "T" => "A",
-      "A" => "U"
-    }
+  private
+    def require_valid_nucleotide(nucleotide, i)
+      alert = "Nucleotide '#{nucleotide}' at position #{i} not recognized"
+      raise ArgumentError, alert unless @complements.key?(nucleotide)
+    end
+
   end
 end
