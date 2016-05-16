@@ -1,31 +1,37 @@
 module RomanNumerals
-  VERSION   = 1
-  ROMAN_NUMERALS = [
-    ['', 'I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX'],
-    ['', 'X', 'XX', 'XXX', 'XL', 'L', 'LX', 'LXX', 'LXXX', 'XC'],
-    ['', 'C', 'CC', 'CCC', 'CD', 'D', 'DC', 'DCC', 'DCCC', 'CM'],
-    ['', 'M', 'MM', 'MMM']
-  ].freeze
+  VERSION = 1
+  INFO = {"ones"     => { "nearest_5" => { 0 => "", 5 => "V", 10 => "X" },
+                          "adjuster"  => "I" },
+          "tens"     => { "nearest_5" => { 0 => "", 5 => "L", 10 => "C" },
+                          "adjuster"  => "X" },
+          "hundreds" => { "nearest_5" => { 0 => "", 5 => "D", 10 => "M" },
+                          "adjuster"  => "C" },
+          "thousands"=> { "nearest_5" => { 0 => "" },
+                          "adjuster"  => "M" }}
+  PLACE_POSITIONS = { "thousands" => -4, "hundreds" => -3, "tens" => -2, "ones" => -1 }
 
   def to_roman
-    raise InvalidRange unless convertible?
+    # place_values = self.to_s.chars.map(&:to_i)
 
-    converter = ROMAN_NUMERALS.dup
-    to_s.rjust(4,'0').chars.map(&:to_i)
-        .reduce('') { |roman, arabic| roman << converter.pop[arabic] }
+    place_values = PLACE_POSITIONS.map do |place, position|    #split into array  (need number and position, or full number)
+      [place, self.to_s.split('')[position].to_i]
+    end
+    place_values.map { |place, value| romans(place, value) }.join # grab numbers
   end
 
-  private
-
-  def convertible?
-    (1..3_000).include?(self)
+  def romans(place, value)
+    nearest_5 = roman_round(value)
+    diff = value - nearest_5
+    anchor = INFO[place]["nearest_5"][nearest_5]
+    adjustment = INFO[place]["adjuster"] * diff.abs
+    diff < 0 ? (adjustment + anchor) : (anchor + adjustment)
   end
-end
 
-class InvalidRange < ArgumentError
-  def message
-    'The number must be in 1 - 3,000 range'
+  def roman_round(num)
+    round = (num/5.0).round * 5
+    num - round == -2 ? round - 5 : round
   end
+
 end
 
 class Fixnum
