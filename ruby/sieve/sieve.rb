@@ -1,16 +1,13 @@
 class Sieve
-  attr_reader :num, :candidates
+  attr_reader :num, :candidates, :primes
 
   def initialize(num)
-    @num = num
     @candidates = (2..num).to_a
   end
 
   def primes
     candidates.each do |prime|
-      candidates.each do |candidate|
-        candidates.delete(candidate) if multiple_of_prime?(candidate, prime)
-      end
+      candidates.reject! { |candidate| multiple_of_prime?(candidate, prime) }
     end
   end
 
