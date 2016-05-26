@@ -13,8 +13,7 @@ class Robot
 
   private
     def set_name
-      @name = verified_name
-      @@all_names << @name
+      @@all_names << @name = verified_name
     end
 
     def verified_name
@@ -24,7 +23,7 @@ class Robot
 
     def name_candidate
       letters = 2.times.map { ("A".."Z").to_a.sample }.join
-      numbers = 3.times.map { (1..9).to_a.sample.to_s }.join
+      numbers = 3.times.map { rand(1..9).to_s }.join
       letters + numbers
     end
 end
