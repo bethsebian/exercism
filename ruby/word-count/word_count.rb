@@ -8,8 +8,9 @@ class Phrase
     @words.each_with_object(Hash.new(0)) { |word, hash| hash[clean(word)] += 1 }
   end
 
-  def clean(word)
-    word.gsub!(/[']/,'') if word[0] == "'"
-    word.downcase
-  end
+  private
+    def clean(word)
+      word.gsub!(/[']/,'') if word[0] == "'"
+      word.downcase
+    end
 end
