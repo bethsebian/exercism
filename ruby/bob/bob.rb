@@ -7,15 +7,16 @@ class Bob
     return "Whatever."
   end
 
-  def is_silent?
-    @remark.strip.empty?
-  end
+  private
+    def is_silent?
+      @remark.strip.empty?
+    end
 
-  def is_screaming?
-    @remark.upcase == @remark && @remark[/[A-Z]+/]
-  end
+    def is_screaming?
+      @remark.upcase == @remark && @remark[/[A-Z]+/]
+    end
 
-  def is_question?
-    @remark[-1] == "?"
-  end
+    def is_question?
+      @remark[-1] == "?"
+    end
 end
