@@ -1,8 +1,21 @@
 class Bob
   def hey(remark)
-    return "Fine. Be that way!" unless remark[/[A-Za-z0-9]+/]
-    return "Whoa, chill out!" if remark.upcase == remark && remark[/[A-Z]+/]
-    return "Sure." if remark[-1] == "?"
-    return "Whatever." 
+    @remark = remark
+    return "Fine. Be that way!" if is_silent?
+    return "Whoa, chill out!" if is_screaming?
+    return "Sure." if is_question?
+    return "Whatever."
+  end
+
+  def is_silent?
+    @remark.strip.empty?
+  end
+
+  def is_screaming?
+    @remark.upcase == @remark && @remark[/[A-Z]+/]
+  end
+
+  def is_question?
+    @remark[-1] == "?"
   end
 end
