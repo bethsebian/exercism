@@ -1,23 +1,14 @@
 class FoodChain
   VERSION = 2
+
   def self.song
-    song = ""
-    8.times do |i|
-      song << begin_song(animals[i])
-      song << pith[animals[i]] + "\n" if i > 0 && i < 7
-      i.times do |t|
-        thing = i - t
-        part_one = why(animals[thing], animals[thing - 1])
-        part_two = " that wriggled and jiggled and tickled inside her" if thing == 2
-        thingz = part_two ? part_one + part_two : part_one
-        song << thingz + ". \n"
-      end if i < 7
-      song << end_song(animals[i])
+    thing = 8.times.map do |i|
+      begin_song(animals[i]) +
+      (i > 0 && i < 7 ? pith[animals[i]] + "\n" : "") +
+      (i < 7 ? i.downto(1).map { |t| why(animals[t], animals[t - 1], t) }.join : "") +
+      end_song(animals[i])
     end
-
-    song
   end
-
 
   def self.animals
     ["fly", "spider", "bird", "cat", "dog", "goat", "cow", "horse"]
@@ -33,8 +24,10 @@ class FoodChain
       "horse"   => "She's dead, of course!"}
   end
 
-  def self.why(animal_2, animal_1)
+  def self.why(animal_2, animal_1, t)
     "She swallowed the #{animal_2} to catch the #{animal_1}"
+    " that wriggled and jiggled and tickled inside her" if t == 2
+    part_two ? part_one + part_two + "\n" : part_one + "\n"
   end
 
   def self.begin_song(animal)
