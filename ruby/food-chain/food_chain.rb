@@ -11,16 +11,16 @@ class FoodChain
 
   def self.song
     8.times.map do |i|
-      [ begin_stanza(FOOD[i]),
+      [ begin_stanza(i),
         description(i),
         eating_chain(i),
-        end_stanza(FOOD[i])
+        end_stanza(i)
       ]
     end.join
   end
 
-  def self.begin_stanza(animal)
-    "I know an old lady who swallowed a #{animal}. \n"
+  def self.begin_stanza(i)
+    "I know an old lady who swallowed a #{FOOD[i]}. \n"
   end
 
   def self.description(i)
@@ -36,8 +36,8 @@ class FoodChain
     "She swallowed the #{animal_2} to catch the #{animal_1}#{modifier if t==2}."
   end
 
-  def self.end_stanza(animal)
-    return DESCRIPTIONS[FOOD[7]] if animal == FOOD[7]
+  def self.end_stanza(i)
+    return DESCRIPTIONS[FOOD[7]] if FOOD[i] == FOOD[7]
     "I don't know why she swallowed the #{FOOD[0]}. Perhaps she'll die. \n\n"
   end
 end
